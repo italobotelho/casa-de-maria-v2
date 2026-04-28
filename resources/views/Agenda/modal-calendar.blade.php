@@ -145,7 +145,6 @@
             </div>
         </div>
     </div>
-    </div>
 
     <!-- Modal de Sucesso para Alteração -->
     <div class="modal fade" id="successAlterationModal" tabindex="-1" aria-labelledby="successAlterationModalLabel" aria-hidden="true">
@@ -184,11 +183,4 @@
 </script>
 
 
-    <script src="js/buscaPaciente.js"></script> <!-- Script para manipulação das buscas de pacientes -->
-
-
-
-    
-    </body>
-
-    </html>
+    <script src="{{ asset('js/buscaPaciente.js') }}"></script> <!-- Script para manipulação das buscas de pacientes -->
