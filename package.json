@@ -16,7 +16,7 @@
     "dependencies": {
         "fullcalendar": "^6.1.15",
         "fullcalendar-scheduler": "^6.1.15",
-        "jspdf": "^2.5.2",
+        "jspdf": "^4.2.1",
         "moment": "^2.30.1"
     }
 }
