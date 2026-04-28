@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+/* Fontes */
+
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@font-face {
+    font-family: Century Gothic;
+    src: url(../../public/fonts/centurygothic.ttf);
+}
+
+@font-face {
+    font-family: Century Bold;
+    src: url(../../public/fonts/centurygothic_bold.ttf);
+}
+
+

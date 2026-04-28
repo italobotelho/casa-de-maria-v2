@@ -1,0 +1,174 @@
+body {
+  margin-top: 40px;
+  font-size: 14px;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+}
+
+
+/* Adiciona uma sombra interna ao select */
+.custom-select {
+  background-color: #8B451333 !important; /* Cor marrom com 90% de transparência */
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2); /* Sombra interna suave */
+  border-radius: 4px; /* Mantém o arredondamento */
+ 
+}
+
+
+#wrap {
+  display: flex; /* Cria um layout flexível */
+  justify-content: space-between; /* Espaço entre os calendários */
+  gap: 20px; /* Espaçamento entre os calendários */
+}
+
+#calendar {
+  flex: 4; /* Aumenta o espaço ocupado pelo calendário principal */
+  min-width: 70%; /* Limita a largura para o principal ocupar uma maior proporção da tela */
+  padding-bottom: 50px;
+}
+
+/* Estilo para o botão 'prev' e 'next' */
+#calendar .fc-prev-button, 
+#calendar .fc-next-button,
+#calendar .fc-today-button {
+  border: none; /* Remove a borda */
+  background-color: #795127; /* Cor do fundo do botão */
+  color: #fff; /* Cor do texto do botão (branco) */
+  display: inline-flex; /* Certifica-se de que os botões estão no mesmo estilo */
+  align-items: center; /* Centraliza o conteúdo dentro do botão */
+  justify-content: center; /* Centraliza o conteúdo dentro do botão */
+}
+
+/* Estilo do ícone (seta) dentro dos botões de navegação */
+#calendar .fc-prev-button:before,
+#calendar .fc-next-button:before {
+  color: #fff; /* Cor da seta (branca) */
+}
+
+/* Efeito de hover para os botões de navegação */
+#calendar .fc-prev-button:hover, 
+#calendar .fc-next-button:hover,
+#calendar .fc-today-button:hover {
+  background-color: #5b3e1e; /* Cor de fundo marrom mais escuro ao passar o mouse */
+} 
+
+#calendar .fc-button-group .fc-button:focus {
+  outline: none; /* Remove o contorno padrão */
+  box-shadow: 0 0 0 3px rgba(155, 114, 63, 0.5); /* Adiciona uma borda com a cor desejada */
+}
+
+/* Estilo apenas para os botões de visualização */
+#calendar .fc-button-group .fc-button:not(.fc-prev-button):not(.fc-next-button):not(.fc-today-button) {
+  background-color: white; /* Fundo branco */
+  color: black; /* Cor do texto preta */
+  border: 1px solid #ddd; /* Borda leve para separar os botões */
+}
+
+/* Efeito de hover para os botões de visualização */
+#calendar .fc-button-group .fc-button:not(.fc-prev-button):not(.fc-next-button):not(.fc-today-button):hover {
+  background-color: #52371a9d; /* Fundo ligeiramente mais escuro ao passar o mouse */
+  color: #fff;
+}
+
+/* Estilo para o botão ativo */
+#calendar .fc-button-group .fc-button.fc-button-active:not(.fc-prev-button):not(.fc-next-button):not(.fc-today-button) {
+  background-color: #5b3e1e; /* Fundo cinza claro para o botão ativo */
+  color: #fff; /* Mantém a cor do texto preta */
+}
+
+/* Estilo do título central do cabeçalho */
+#calendar .fc-toolbar-title {
+  color: #000; /* Cor do título */
+  font-size: 1.5rem; /* Tamanho da fonte do título */
+  font-weight: bold; /* Dei xar o título em negrito */
+}
+
+/* Aumentar a altura das células de horário no timeGridDay */
+#calendar .fc-timegrid .fc-timegrid-slot {
+  min-height: 60px; /* Ajusta a altura mínima de cada célula de horário */
+  height: auto;     /* Permite que as células se ajustem automaticamente */
+  padding-top: 15px;  /* Adiciona um pouco de espaço acima do conteúdo */
+  padding-bottom: 15px; /* Adiciona um pouco de espaço abaixo do conteúdo */
+  background-color: #f2f2f2;  /* Cor de fundo para a coluna dos horários */
+}
+
+/* Cor das células de horário quando são hover (ao passar o mouse sobre) */
+#calendar .fc-timegrid-slot:hover {
+  background-color: #E5D5C0; /* Cor de fundo ao passar o mouse */
+}
+
+/* Ajuste o tamanho das células de data na visualização mensal */
+#calendar .fc-daygrid-day {
+  min-height: 120px; /* Ajusta a altura mínima de cada célula de data */
+  height: auto; /* Permite que a altura se ajuste automaticamente */
+}
+
+/* Ajuste o tamanho das células de data quando o usuário passar o mouse sobre elas */
+#calendar .fc-daygrid-day:hover {
+  background-color: #e5d5c0; /* Cor de fundo ao passar o mouse */
+}
+
+/* Ajuste a altura e o preenchimento das células de data selecionadas */
+#calendar .fc-daygrid-day.fc-day-selected {
+  background-color: #5c3103; /* Cor de fundo quando o dia é selecionado */
+  color: white; /* Cor do texto quando o dia é selecionado */
+}
+
+#calendarMonth {
+  flex: 1; /* Garante que o calendário menor ocupe menos espaço */
+}
+
+#calendarMonth .fc-toolbar {
+  margin-bottom: 5px;
+}
+
+/* Ajuste para o título do mês */
+#calendarMonth .fc-toolbar-title {
+  font-size: 1rem !important; /* Ajuste o tamanho da fonte para o título */
+  padding: 5px 0; /* Remove o padding excessivo */
+  font-weight: 600; /* Deixa os números dos dias em negrito */
+  
+}
+
+/* Estilo para o botão 'prev' e 'next' */
+#calendarMonth .fc-prev-button, 
+#calendarMonth .fc-next-button {
+  border: none; /* Remove borda */
+  box-shadow: none; /* Remove sombra */
+  background-color: transparent; /* Fundo transparente */
+  color: #795127; /* Cor do ícone */
+  font-size: 0.8rem; /* Diminui o tamanho da fonte dos botões */
+  padding: 3px 7px; /* Ajusta o padding para reduzir o tamanho */
+  height: 25px; /* Ajusta a altura */
+  width: 25px; /* Ajusta a largura */
+  display: inline-flex; /* Certifica-se de que os botões estão no mesmo estilo */
+  align-items: center; /* Centraliza o conteúdo dentro do botão */
+  justify-content: center; /* Centraliza o conteúdo dentro do botão */
+}
+
+/* Efeito de hover */
+#calendarMonth .fc-prev-button:hover, 
+#calendarMonth .fc-next-button:hover {
+  background-color: transparent;
+  color: #795127;
+}
+
+/* Ajuste a altura das células de data na visualização mensal */
+#calendarMonth .fc-daygrid-day {
+  font-weight: bold; /* Deixa os números dos dias em negrito */
+  height: 20px; /* Define a altura fixa de 60px para as células */
+  min-height: 20px; /* Garante que a altura mínima também seja 60px */
+}
+
+/* Se você quiser garantir que as células não sejam afetadas por margens ou preenchimentos, você pode adicionar: */
+#calendarMonth .fc-daygrid-day > div {
+  height: 100%; /* Faz com que o conteúdo da célula ocupe 100% da altura da célula */
+  display: flex; /* Usar flexbox para centralizar o conteúdo */
+  align-items: center; /* Centraliza verticalmente o conteúdo */
+  justify-content: center; /* Centraliza horizontalmente o conteúdo */
+}
+
+/* Estilo para os números dos dias no calendário mensal */
+#calendarMonth .fc-daygrid-day-number {
+  cursor: pointer; /* Muda o cursor para um ponteiro ao passar sobre os números dos dias */
+  text-decoration: none;
+}

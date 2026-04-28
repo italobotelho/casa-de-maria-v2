@@ -1,0 +1,10 @@
+/* CSS customizado para aumentar o tamanho do switch */
+.large-switch .form-check-input {
+    width: 3em; /* Aumenta a largura do switch */
+    height: 1em; /* Aumenta a altura do switch */
+    transform: scale(1.5); /* Aumenta o tamanho geral */
+}
+
+.large-switch .form-check-input:hover {
+    cursor: pointer;
+}

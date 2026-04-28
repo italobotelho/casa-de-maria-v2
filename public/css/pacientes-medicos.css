@@ -1,0 +1,68 @@
+thead th {
+    background-color: rgba(234, 191, 138, 0.85) !important;
+}
+
+.novoCadastro {
+    background-color: rgba(234, 191, 138, 0.85) !important;
+    color: #000;
+    text-decoration: none;
+    padding: 10px 20px; /* Define um padding consistente */
+    border: none; /* Remove qualquer borda extra */
+    transition: background-color 0.3s, transform 0.3s; /* Suaviza a transição de cor e evita animações de transformação */
+}
+
+.novoCadastro:hover {
+    background-color: #c29865 !important; /* Ajuste a cor ao passar o mouse */
+    color: #000; /* Mantém a cor do texto */
+}
+
+.novoCadastro a {
+    color: #000; /* Texto em preto */
+    text-decoration: none; /* Remove a decoração do texto */
+}
+
+/* Centraliza o texto em todas as células de cabeçalho e de dados da tabela */
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Aplica bordas arredondadas na tabela */
+.table {
+    border-radius: 8px; /* ajuste o valor conforme desejado */
+    overflow: hidden; /* garante que o arredondamento funcione corretamente */
+}
+
+ /* Estilo para a tabela */
+ .table-hover td:hover {
+    background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
+    cursor: pointer; /* Muda o cursor para ponteiro */
+}
+
+/* Estilo para o botão de busca integrado */
+.form-group .btn-link {
+    font-size: 1.2rem; /* Tamanho do ícone */
+    color: #6c757d;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Estilo para o botão de busca integrado */
+.form-group .btn-link {
+    font-size: 1.2rem; /* Tamanho do ícone */
+    color: #6c757d;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Ajustar a largura do input group, se necessário */
+.input-group {
+    width: 100%;
+}
+
+/* Adicionar algum espaçamento entre os campos de input */
+.input-group.me-3 {
+    margin-right: 10px;
+}
