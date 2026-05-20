@@ -7,7 +7,7 @@
 
 Este projeto é um sistema web completo para automação e gestão clínica. Desenvolvido com o framework **Laravel**, o ecossistema gerencia consultas, cadastros de pacientes, médicos, convênios e procedimentos através de uma interface responsiva e dinâmica baseada em calendários interativos.
 
-Este trabalho faz parte do currículo de **Ciência de Dados e Inteligência Artificial** da **PUC-Campinas (2025)**.
+Este trabalho faz parte do TCC de **Desenvolvimento de Sistemas** da **ETEC João Belarmino (2024)**.
 
 ---
 
