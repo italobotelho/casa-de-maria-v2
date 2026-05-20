@@ -19,9 +19,6 @@ Auth::routes();
 // Rotas Login
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
 
-//Rotas Agenda
-Route::get('/home', [HomeController::class, 'index'])->name('agenda.home');
-
 // Rotas Eventos Agenda
 Route::get('/load-events', [EventController::class, 'loadEvents'])->name('routeLoadEvents');
 Route::put('/event-update', [EventController::class, 'update'])->name('routeEventUpdate');
@@ -29,9 +26,7 @@ Route::post('/event-store', [EventController::class, 'store'])->name('routeEvent
 Route::delete('/event-destroy', [EventController::class, 'destroy'])->name('routeEventDelete');
 Route::get('/get-procedimentos', [EventController::class, 'getProcedimentos'])->name('getProcedimentos');
 Route::get('/get-convenios', [EventController::class, 'getConvenios'])->name('getConvenios');
-Route::get('/home', [EventController::class, 'index'])->name('agenda.home');
 Route::get('/load-events-by-paciente', [EventController::class, 'loadEventsByPaciente'])->name('routeLoadEventsByPaciente');
-Route::get('/home', [EventController::class, 'index'])->name('agenda.home');
 Route::get('/get-medico/{id}', [MedicoController::class, 'getMedico']);
 Route::get('/get-paciente/{id}', [PersonController::class, 'getPaciente']);
 Route::get('/get-event/{id}', [EventController::class, 'show']);
@@ -65,7 +60,7 @@ Route::get('/convenio', [PersonController::class, 'ListarConvenio'])->name('conv
 
 //PACIENTES
 Route::put('/form_paciente', [PersonController::class, 'update'])->name('paciente.update');
-Route::post('/convenios', 'PersonController@ListarConvenio');
+Route::post('/convenios', [PersonController::class, 'ListarConvenio']);
 Route::get('/pacientes', [PersonController::class, 'index'])->name('pacientes.index');
 Route::get('/paciente/{id}', [PersonController::class, 'show']);
 

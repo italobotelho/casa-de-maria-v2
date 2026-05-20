@@ -8,12 +8,14 @@
 @section('title')
 @stop
 
-@section('content')
-<div class="container">
+@section('modals')
     @include('agenda.modal-calendar')
     @include('agenda.modal-view-calendar')
     @include('agenda.modal-buscar')
+@endsection
 
+@section('content')
+<div class="container">
     <div class="row justify-content-between my-3">
         <div class="col-md-6">
             <h1 class="display-4">AGENDA</h1> <!-- Exibindo o título diretamente -->

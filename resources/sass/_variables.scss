@@ -1,12 +1,29 @@
 // resources/sass/_variables.scss
 
-// Body
-$body-bg: #f8fafc;
-
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
-$font-size-base: 0.9rem;
+$font-family-sans-serif: 'Outfit', 'Inter', sans-serif;
+$font-size-base: 1rem;
 $line-height-base: 1.6;
 
-// Colors
-$primary: rgb(141, 107, 71);
+// Colors - Tema Claro Aprimorado (Bege/Dourado Premium)
+$primary: #A47D53; // Um tom de dourado/bege mais elegante
+$primary-hover: #8A633A;
+$secondary: #E5D5C0; // Bege suave
+$background: #FDFBF7; // Fundo off-white com toque quente
+$text-dark: #2C241B; // Marrom muito escuro para texto (melhor contraste)
+$text-muted: #795127; 
+
+// Body
+$body-bg: $background;
+$body-color: $text-dark;
+
+// Border Radius
+$border-radius: 0.75rem;
+$border-radius-lg: 1.5rem;
+$border-radius-xl: 2rem;
+$border-radius-pill: 50rem;
+
+// Sombras
+$box-shadow-sm: 0 4px 15px rgba(164, 125, 83, 0.08);
+$box-shadow: 0 10px 30px rgba(164, 125, 83, 0.12);
+$box-shadow-lg: 0 20px 40px rgba(164, 125, 83, 0.15);

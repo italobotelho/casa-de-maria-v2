@@ -5,21 +5,7 @@ var calendar;
     var calendarEl = document.getElementById('calendar');
     var calendarMonthEl = document.getElementById('calendarMonth');
 
-    // Selecione todos os botões de navegação do FullCalendar
-    const buttons = document.querySelectorAll('#calendar .fc-button-primary');
 
-    buttons.forEach(function(button) {
-      // Adiciona o evento de clique a cada botão
-      button.addEventListener('click', function() {
-        // Remove a classe "clicked" de todos os botões
-        buttons.forEach(function(btn) {
-          btn.classList.remove('clicked');
-        });
-        
-        // Adiciona a classe "clicked" ao botão clicado
-        button.classList.add('clicked');
-      });
-    });
 
     // Evento de criação do calendário principal
     calendar = new FullCalendar.Calendar(calendarEl, {
@@ -145,6 +131,7 @@ var calendar;
         $("#modalCalendar #titleModal").html('Alteração de agendamento para <strong>' + startDate + '</strong>');
 
         $("#modalCalendar button.deleteEvent").css("display", "flex");
+        $("#modalCalendar .saveEvent").html('Atualizar');
 
         // Preencher os campos iniciais do modal
         $("#modalCalendar input[name='id']").val(element.event.id);
@@ -263,6 +250,7 @@ var calendar;
 
         $("#modalCalendar").modal('show');
         $("#modalCalendar button.deleteEvent").css("display", "none");
+        $("#modalCalendar .saveEvent").html('Cadastrar Horário');
 
         let startTime = moment(element.start).format("HH:mm");
         $("#modalCalendar input[name='start']").val(startTime);

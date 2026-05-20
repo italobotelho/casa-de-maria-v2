@@ -1,4 +1,13 @@
 <style>
+    @media (min-width: 768px) {
+        .sticky-center-desktop {
+            position: sticky;
+            top: 50% !important;
+            transform: translateY(-50%);
+            align-self: flex-start; /* Necessário para o position sticky funcionar em flex containers */
+        }
+    }
+
     .dot {
         height: 10px;
         /* Tamanho do ponto */
@@ -27,8 +36,8 @@
 
 </style>
 
-<div class="modal fade modal-lg" id="modalViewCalendar" aria-hidden="true" aria-labelledby="modalViewCalendarLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="modalViewCalendar" aria-hidden="true" aria-labelledby="modalViewCalendarLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl modal-fullscreen-md-down">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="w-100 d-flex justify-content-center">
@@ -37,8 +46,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex gap-3">
-                    <div class="d-flex gap-2 p-3 border rounded" style="flex-direction: column; align-items: center;">
+                <div class="d-flex flex-column flex-md-row gap-3">
+                    <div class="d-flex gap-2 p-3 border rounded align-self-center sticky-center-desktop" style="flex-direction: column; align-items: center; z-index: 10;">
                         <img id="pacienteFoto" class="rounded-circle" src="" alt="Foto do Paciente" style="width: 150px; height: 150px; object-fit: cover;">
                         <button class="btn btn-outline-primary custom-btn-hover mt-2">
                             <a class="custom-link link-offset-2 link-underline link-underline-opacity-0" id="cadastroPacienteLink" href="#">Cadastro paciente</a>

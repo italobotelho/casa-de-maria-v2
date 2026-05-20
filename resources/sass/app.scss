@@ -1,5 +1,5 @@
-// Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+// Fonts - Outfit
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 // Variables
 @import 'variables';
@@ -7,19 +7,156 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
-// Customs CSS
-.navbar-personalizada {
-    background-color: $primary;
-    .navbar-brand, .nav-link {
-      color: #fff;
-    }
-}
-.nav-link-config {
-  position: relative; /* Posição relativa para que a linha fique acima da borda */
-  bottom: -10px; /* Deslocamento para baixo para que a linha fique acima da borda */
-  z-index: 1; /* Z-index para que a linha fique acima da borda */  
+// Globals
+body {
+    background: radial-gradient(circle at top left, #fff, $background);
+    background-attachment: fixed;
+    color: $text-dark;
+    font-family: $font-family-sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
+// Glassmorphism Utilities
+.glass-panel {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: $box-shadow-lg;
+}
+
+.glass-navbar {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: $box-shadow-sm;
+    transition: all 0.3s ease;
+}
+
+// Navbar Personalizada
+.navbar-brand img {
+    transition: transform 0.3s ease;
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+.nav-link {
+    color: $text-muted !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+    
+    &:hover {
+        color: $primary !important;
+    }
+    
+    // Animação de underline no hover
+    &::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: $primary;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+
+    &:hover::after {
+        width: 80%;
+    }
+}
+
+// Botões Modernos
+.btn-primary-custom {
+    background: linear-gradient(135deg, $primary 0%, $primary-hover 100%);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(164, 125, 83, 0.3);
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(164, 125, 83, 0.4);
+        color: #fff;
+    }
+}
+
+// Inputs Modernos
+.form-control-custom {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(164, 125, 83, 0.2);
+    transition: all 0.3s ease;
+
+    &:focus {
+        background-color: #fff;
+        border-color: $primary;
+        box-shadow: 0 0 0 0.25rem rgba(164, 125, 83, 0.25);
+    }
+}
+
+// Animações
+.fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Configurações antigas mantidas para retrocompatibilidade
+.nav-link-config {
+  position: relative; 
+  bottom: -10px; 
+  z-index: 1; 
+}
 .nav-link.active-line {
-  border-bottom: 2px solid #000; /* Cor da linha */
+  border-bottom: 2px solid $primary; 
+}
+
+// Custom Table (Glassmorphism integration)
+.custom-table {
+    background: transparent !important;
+    
+    th, td {
+        background: transparent !important;
+        border-color: rgba(164, 125, 83, 0.1);
+        padding: 1rem;
+        vertical-align: middle;
+        color: $text-dark;
+    }
+    
+    thead th {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        color: $primary;
+        border-bottom: 2px solid rgba(164, 125, 83, 0.2);
+    }
+    
+    tbody tr {
+        transition: all 0.2s ease;
+        
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.5) !important;
+            transform: scale(1.01);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+    }
 }

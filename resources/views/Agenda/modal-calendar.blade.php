@@ -17,10 +17,6 @@
             /* Indica que o item é clicável */
         }
 
-        .modal-backdrop {
-            opacity: 0.5;
-        }
-
         /* Deixa todos os labels em negrito */
         .form-label {
             font-weight: bold;
@@ -33,7 +29,7 @@
 
     <!-- Modal para agendamento de eventos -->
     <div class="modal fade" id="modalCalendar" tabindex="-1" aria-labelledby="titleModal" >
-        <div class="modal-dialog modal-dialog-scrollable modal-lg"> <!-- Diálogo do modal configurado para scroll e tamanho grande -->
+        <div class="modal-dialog modal-dialog-scrollable modal-xl modal-fullscreen-md-down"> <!-- Diálogo do modal configurado para scroll e tamanho grande -->
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="w-100 d-flex justify-content-center"> <!-- Centraliza o título -->
@@ -112,75 +108,55 @@
     </div>
 
     <!-- Modal de Confirmação de Exclusão -->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" style="background-color: rgba(0,0,0,0.7);">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold" id="confirmDeleteModalLabel">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Excluir Agendamento
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    Você tem certeza que deseja excluir este evento?
+                <div class="modal-body text-center py-4">
+                    <p class="fs-5 mb-1 text-dark">Tem certeza que deseja cancelar e excluir este agendamento?</p>
+                    <p class="text-muted small mb-0">Esta ação é irreversível e o horário voltará a ficar disponível na agenda.</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>
+                <div class="modal-footer justify-content-center bg-light">
+                    <button type="button" class="btn btn-secondary px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger px-4 fw-bold" id="confirmDeleteButton">Sim, Excluir</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Sucesso -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Sucesso</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+    <!-- Modal de Sucesso Dinâmico -->
+    <div class="modal" id="dynamicSuccessModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content text-center p-4 border-0 shadow-lg">
                 <div class="modal-body">
-                    <p>Consulta cadastrada com sucesso!</p> <!-- Mensagem de sucesso -->
+                    <div id="dynamicSuccessIcon" class="mb-3">
+                        <!-- O ícone será injetado aqui -->
+                    </div>
+                    <h5 class="modal-title fw-bold text-dark mb-2" id="dynamicSuccessTitle">Sucesso!</h5>
+                    <p class="text-muted mb-0" id="dynamicSuccessText"></p>
                 </div>
-                <p id="successMessageContent"></p> <!-- Conteúdo da mensagem de sucesso -->
             </div>
         </div>
     </div>
 
-    <!-- Modal de Sucesso para Alteração -->
-    <div class="modal fade" id="successAlterationModal" tabindex="-1" aria-labelledby="successAlterationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successAlterationModalLabel">Sucesso</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Alteração realizada!</p> <!-- Mensagem de sucesso -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
-    // Function to close modal after 2 seconds
-    const successModal = document.getElementById('successModal');
-    const successAlterationModal = document.getElementById('successAlterationModal');
+        function showSuccessModal(title, text, iconClass, iconColor) {
+            $('#dynamicSuccessTitle').text(title);
+            $('#dynamicSuccessText').text(text);
+            $('#dynamicSuccessIcon').html(`<i class="${iconClass}" style="font-size: 3rem; color: ${iconColor};"></i>`);
+            
+            $('#dynamicSuccessModal').modal('show');
 
-    // Listen for modal showing event
-    successModal.addEventListener('shown.bs.modal', function () {
-        setTimeout(function () {
-            $('#successModal').modal('hide'); // Close the modal
-        }, 750); // 2000ms = 2 seconds
-    });
-
-    successAlterationModal.addEventListener('shown.bs.modal', function () {
-        setTimeout(function () {
-            $('#successAlterationModal').modal('hide'); // Close the modal
-        }, 750); // 2000ms = 2 seconds
-    });
-</script>
+            setTimeout(function () {
+                $('#dynamicSuccessModal').modal('hide');
+            }, 1500); // Fecha após 1.5 segundos
+        }
+    </script>
 
 
     <script src="{{ asset('js/buscaPaciente.js') }}"></script> <!-- Script para manipulação das buscas de pacientes -->

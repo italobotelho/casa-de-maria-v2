@@ -28,8 +28,13 @@
     {{ session('success') }}
 </div>
 @endif
-<div class="container border rounded pb-3 shadow-sm">
-    
+<div class="container">
+    <x-layout.page-header 
+        title="{{ isset($paciente) ? 'Editar Paciente' : 'Cadastrar Paciente' }}" 
+        subtitle="Gerencie as informações detalhadas do paciente." 
+        actionText="Voltar para a Lista" 
+        actionUrl="/pacientes" 
+    />
 
     <form action="{{ isset($paciente) ? route('paciente.update', ['id' => $paciente->pk_cod_paci]) : route('paciente.store') }}" method="POST" id="paciente-form" enctype="multipart/form-data">
         @csrf
@@ -37,8 +42,8 @@
         @if(isset($paciente))
          @method('PUT') <!-- Especifica que o método é PUT para atualização -->
         @endif
-    <div class="d-flex">
-        <div class="container border rounded my-4 d-flex flex-column" style="flex: 1; align-self: flex-start; height: auto;">
+    <div class="d-flex flex-column flex-lg-row gap-4 mb-5">
+        <div class="glass-panel rounded-4 p-4 d-flex flex-column fade-in-up" style="flex: 1; align-self: flex-start; animation-delay: 0.1s;">
             <div class="d-flex flex-column align-items-center text-center">
                 <div class="profile-image-container mt-5 mb-2">
                     <!-- Título exibido apenas quando o paciente for encontrado -->
@@ -85,20 +90,20 @@
             </div>
 
             @if(!isset($paciente)) <!-- Exibe o botão apenas se não for atualização -->
-            <div class="d-flex justify-content-center my-2">
-                <button type="submit" class="btn btn-success">Salvar novo paciente</button>
+            <div class="d-flex justify-content-center mt-4 mb-2">
+                <button type="submit" class="btn btn-primary-custom px-4 py-2 rounded-pill w-100">Salvar novo paciente</button>
             </div>
             @endif
 
             @if(isset($paciente)) <!-- Mostrar botões apenas na atualização -->
-                <div class="d-flex justify-content-center my-2 gap-1">
+                <div class="d-flex flex-column justify-content-center mt-4 mb-2 gap-2">
                     <!-- Botão Salvar e Sair -->
-                    <button type="submit" name="action" value="save_and_exit" class="btn btn-success">
+                    <button type="submit" name="action" value="save_and_exit" class="btn btn-primary-custom px-4 py-2 rounded-pill w-100">
                         Salvar e Sair
                     </button>
 
                     <!-- Botão Salvar Dados e Continuar -->
-                    <button type="submit" name="action" value="save_and_stay" class="btn btn-outline-primary">
+                    <button type="submit" name="action" value="save_and_stay" class="btn btn-outline-secondary px-4 py-2 rounded-pill w-100">
                         Salvar Dados
                     </button>
                 </div>
@@ -116,22 +121,16 @@
         </div>
         
 
-        <div class="container border rounded my-3" style="flex: 2; background-color: #f7f7f7">
+        <div class="glass-panel rounded-4 p-4 fade-in-up" style="flex: 2; animation-delay: 0.2s;">
             
             {{-- Dados Pessoais --}}
             <div class="row g-3 my-2">
                 <h1 class="fs-4">DADOS PESSOAIS</h1>
                 <!-- Nome -->
-                <div class="form-group col-md-8">
-                    <label for="nome_paci">Nome Completo</label>
-                    <input maxlength="54" type="text" class="form-control" id="nome_paci" name="nome_paci" value="{{ old('nome_paci', $paciente->nome_paci ?? '') }}" required>
-                </div>
+                <x-form.input name="nome_paci" label="Nome Completo" col="8" maxlength="54" :value="$paciente->nome_paci ?? ''" required="true" />
 
                 <!-- Data de Nascimento -->
-                <div class="form-group col-md-4">
-                    <label for="data_nasci_paci">Data de Nascimento</label>
-                    <input type="date" class="form-control" id="data_nasci_paci" name="data_nasci_paci" value="{{ old('data_nasci_paci', isset($paciente) ? \Carbon\Carbon::parse($paciente->data_nasci_paci)->format('Y-m-d') : '') }}" size="8" required>
-                </div>
+                <x-form.input name="data_nasci_paci" type="date" label="Data de Nascimento" col="4" :value="isset($paciente) && $paciente->data_nasci_paci ? \Carbon\Carbon::parse($paciente->data_nasci_paci)->format('Y-m-d') : ''" size="8" required="true" />
 
                 {{-- Gênero --}}
                 <div class="form-group col-md-2">
@@ -145,16 +144,10 @@
                 </div>
 
                 <!-- Telefone -->
-                <div class="form-group col-md-4">
-                    <label for="telefone_paci">Telefone</label>
-                    <input maxlength="15" class="form-control" id="telefone_paci" name="telefone_paci" value="{{ old('telefone_paci', $paciente->telefone_paci ?? '') }}" required oninput="aplicarMascaraTelefone(this);">
-                </div>
+                <x-form.input name="telefone_paci" label="Telefone" col="4" maxlength="15" :value="$paciente->telefone_paci ?? ''" oninput="aplicarMascaraTelefone(this);" required="true" />
 
                 <!-- Email -->
-                <div class="form-group col-md-6">
-                    <label for="email_paci">E-mail</label>
-                    <input maxlength="100" type="email" class="form-control" id="email_paci" name="email_paci" value="{{ old('email_paci', $paciente->email_paci ?? '') }}" required>
-                </div>
+                <x-form.input name="email_paci" type="email" label="E-mail" col="6" maxlength="100" :value="$paciente->email_paci ?? ''" required="true" />
 
                 <!-- CPF Paciente -->
                 <div class="form-group col-md-4">
@@ -184,36 +177,13 @@
             {{-- Endereço --}}
             <div class="row g-3 my-2">
                 <h2 class="fs-4">ENDEREÇO</h2>
-                <div class="form-group col-md-2">
-                    <label for="inputCEP">CEP</label>
-                    <input type="text" class="form-control" id="cep_paci" name="cep_paci" value="{{ old('cep_paci', $paciente->cep_paci ?? '') }}" onblur="pesquisacep(this.value)" maxlength="9">
-                </div>
-                
-                <div class="form-group col-md-8">
-                    <label for="inputLogradouro">LOGRADOURO</label>
-                    <input type="text" class="form-control" id="rua_paci" name="rua_paci" value="{{ old('rua_paci', $paciente->rua_paci ?? '') }}" size="60" maxlength="60">
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="inputNumeroEstabelecimento">NÚMERO</label>
-                    <input type="number" class="form-control" id="numero_paci" name="numero_paci" value="{{ old('numero_paci', $paciente->numero_paci ?? '') }}" size="10" maxlength="10">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputCBairro">BAIRRO</label>
-                    <input type="text" class="form-control" id="bairro_paci" name="bairro_paci" value="{{ old('bairro_paci', $paciente->bairro_paci ?? '') }}" size="40" maxlength="40">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputCidade">CIDADE</label>
-                    <input type="text" class="form-control" id="cidade_paci" name="cidade_paci" value="{{ old('cidade_paci', $paciente->cidade_paci ?? '') }}" size="40" maxlength="40">
-                </div>
-                <div class="form-group col-md-10">
-                    <label for="inputComplemento">COMPLEMENTO</label>
-                    <input type="text" class="form-control" id="complemento_paci" name="complemento_paci" value="{{ old('complemento_paci', $paciente->complemento_paci ?? '') }}" size="40" maxlength="40">
-                </div>
-                
-                <div class="form-group col-md-2">
-                    <label for="inputUF">UF (ESTADO)</label>
-                    <input type="text" class="form-control" id="uf_paci" name="uf_paci" value="{{ old('uf_paci', $paciente->uf_paci ?? '') }}" size="2" maxlength="2">
-                </div>
+                <x-form.input name="cep_paci" label="CEP" col="2" maxlength="9" :value="$paciente->cep_paci ?? ''" onblur="pesquisacep(this.value)" />
+                <x-form.input name="rua_paci" label="LOGRADOURO" col="8" maxlength="60" size="60" :value="$paciente->rua_paci ?? ''" />
+                <x-form.input name="numero_paci" type="number" label="NÚMERO" col="2" maxlength="10" size="10" :value="$paciente->numero_paci ?? ''" />
+                <x-form.input name="bairro_paci" label="BAIRRO" col="6" maxlength="40" size="40" :value="$paciente->bairro_paci ?? ''" />
+                <x-form.input name="cidade_paci" label="CIDADE" col="6" maxlength="40" size="40" :value="$paciente->cidade_paci ?? ''" />
+                <x-form.input name="complemento_paci" label="COMPLEMENTO" col="10" maxlength="40" size="40" :value="$paciente->complemento_paci ?? ''" />
+                <x-form.input name="uf_paci" label="UF (ESTADO)" col="2" maxlength="2" size="2" :value="$paciente->uf_paci ?? ''" />
             </div>
 
             <!-- Campos do Responsável -->
@@ -494,6 +464,5 @@
         enviarRotacaoParaServidor();
     });
 </script>
-<script src="{{ asset('js/cep-paci.js') }}"></script>
-<script src="{{ asset('js/validate-cep.js') }}"></script>
+<script src="{{ asset('js/viacep.js') }}"></script>
 @endsection

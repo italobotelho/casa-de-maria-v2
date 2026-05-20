@@ -11,8 +11,9 @@
     <title>{{ config('app.name', 'Casa de Maria') }}</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     {{-- Ícone --}}
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
@@ -28,7 +29,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-personalizada shadow">
+        <nav class="navbar navbar-expand-md navbar-light glass-navbar sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/home') }}">
                     <img src="{{ asset('img/logo-navbar.png') }}" alt="{{ config('app.name', 'Laravel') }}" width="110" height="">
@@ -71,12 +72,13 @@
         
         
         <main class="vh-100">
-            <section class="container h-100 py-4">
-                <h1 class="display-5">@yield('title', 'Título Padrão')</h1> <!-- Título padrão se não definido -->
+            <section class="container h-100 py-4 fade-in-up">
+                <h1 class="display-5 fw-bold mb-4" style="color: #8A633A;">@yield('title', 'Título Padrão')</h1> <!-- Título padrão se não definido -->
                 @yield('content')
             </section>
         </main>
     </div>
+    @yield('modals')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @yield('scripts')
 </body>

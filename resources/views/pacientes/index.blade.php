@@ -29,23 +29,17 @@
 @section('content')
     
     <div class="container">
-        <div class="d-flex gap-4">
-            <div>
-                <h1 class="display-5">BUSCAR PACIENTE</h1>
-            </div>
-            
-            <div class="mt-4">
-                <p class="display-8">Listagem dos últimos pacientes cadastrados e busca geral.</p>
-            </div>
-        </div>
+        <x-layout.page-header 
+            title="Pacientes" 
+            subtitle="Listagem dos últimos pacientes cadastrados e busca geral." 
+            actionText="Novo Paciente" 
+            actionUrl="/form_paciente" 
+        />
         
+        <div class="glass-panel rounded-4 p-4 mb-5 fade-in-up" style="animation-delay: 0.1s;">
         
-        <div class="container border border-1 rounded shadow-sm mb-5">
-        
-            <div class="my-4 mx-1"><button class="btn novoCadastro" onclick="window.location.href='/form_paciente'">CADASTRAR NOVO PACIENTE</button></div>
-        
-            <div class="my-3 mx-1">
-                <h2 class="text-uppercase fs-5 fw-medium">Filtros para Busca:</h2>
+            <div class="mb-4">
+                <h2 class="fs-5 fw-bold text-secondary mb-3"><i class="bi bi-funnel me-2"></i>Filtros para Busca</h2>
             
                 <!-- Formulário de busca -->
                 <form action="{{ url('/pacientes') }}" method="GET" class="form-inline mb-4 d-flex align-items-center">
@@ -62,17 +56,17 @@
                         <span class="input-group-text" id="basic-addon2">
                             <i class="bi bi-calendar"></i> <!-- Ícone de data -->
                         </span>
-                        <input type="date" name="data_nasc_paci" id="data_nasc_paci" class="form-control" aria-label="Data de nascimento" aria-describedby="basic-addon2">
+                        <input type="date" name="data_nasc_paci" id="data_nasc_paci" class="form-control form-control-custom" aria-label="Data de nascimento" aria-describedby="basic-addon2">
                     </div>
                     <div class="d-flex gap-2">
                         <!-- Botão de busca geral -->
                         <div>
-                            <button type="submit" class="btn btn-primary">Buscar</button>
+                            <button type="submit" class="btn btn-primary-custom px-4 rounded-pill">Buscar</button>
                         </div>
 
                             <!-- Botão de limpar filtro -->
                         <div>
-                            <button type="button" class="btn btn-secondary" id="limparFiltroBtn">Limpar</button>
+                            <button type="button" class="btn btn-outline-secondary rounded-pill" id="limparFiltroBtn">Limpar</button>
                         </div>
                     </div>
                     
@@ -82,10 +76,11 @@
 
             </div>            
         
-            <div class="my-3 mx-1"><h3 class="text-uppercase fs-5 fw-medium">Resultados:</h3></div>
+            <div class="mt-5 mb-3"><h3 class="fs-5 fw-bold text-secondary"><i class="bi bi-list-ul me-2"></i>Resultados</h3></div>
 
-                        <table class="table border table-responsive">
-                            <thead>
+            <div class="table-responsive rounded-3 shadow-sm">
+                <table class="table custom-table table-hover table-borderless align-middle mb-0">
+                    <thead class="table-light">
                                 <tr>
                                     <th scope="col">Código</th>
                                     <th scope="col">Nome</th>

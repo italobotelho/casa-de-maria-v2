@@ -5,9 +5,12 @@ namespace App\Http\Controllers; // Define o namespace do controlador
 use Illuminate\Http\Request;
 use App\Models\Paciente;
 use App\Models\Convenio;
+use App\Traits\UploadsImages;
+use Illuminate\Support\Facades\Storage;
 
 class PersonController extends Controller
 {
+    use UploadsImages;
 
     public function __construct()
     {
@@ -16,10 +19,8 @@ class PersonController extends Controller
 
     public function getPaciente($id)
     {
-        $paciente = Paciente::with('convenio')->find($id); // Busca o paciente com o convênio associado
-        if (!$paciente) {
-            return response()->json(['message' => 'Paciente não encontrado'], 404);
-        }
+        $paciente = Paciente::with('convenio')->findOrFail($id); // Busca o paciente com o convênio associado
+
         return response()->json([
             'nome_paciente' => $paciente->nome_paci,
             'telefone_paciente' => $paciente->telefone_paci,
@@ -50,69 +51,21 @@ class PersonController extends Controller
     public function show($id)
     {
         // Tente encontrar o paciente pelo ID
-        $paciente = Paciente::find($id);
-        
-        // Verifique se o paciente foi encontrado
-        if (!$paciente) {
-            return response()->json(['message' => 'Paciente não encontrado'], 404);
-        }
+        $paciente = Paciente::findOrFail($id);
     
         // Retorne os dados do paciente como JSON
         return response()->json($paciente);
     }
 
-    public function store(Request $request)
+    public function store(\App\Http\Requests\StorePacienteRequest $request)
     {
-        // Calcula a idade com base na data de nascimento fornecida
-        $birthDate = new \DateTime($request->input('data_nasci_paci'));
-        $today = new \DateTime();
-        $age = $today->diff($birthDate)->y; // Calcula a idade
-    
-        // Regras de validação básicas
-        $rules = [
-            'img_paci' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'angulo_rotacao' => 'nullable|integer',
-            'nome_paci' => 'required|string|max:54',
-            'data_nasci_paci' => 'required|date',
-            'telefone_paci' => 'required|string|max:15',
-            'email_paci' => 'required|email',
-            'genero' => 'required',
-            'fk_convenio_paci' => 'required|string',
-            'data_obito_paci' => 'nullable|date',
-            'cpf_paci' => 'required|string|max:14|cpf',
-            'cep_paci' => 'nullable|string|max:9',
-            'rua_paci' => 'nullable|string|max:50',
-            'numero_paci' => 'nullable|string|max:5',
-            'bairro_paci' => 'nullable|string|max:50',
-            'cidade_paci' => 'nullable|string|max:30',
-            'complemento_paci' => 'nullable|string|max:100',
-            'uf_paci' => 'nullable|string|max:2',
-        ];
-    
-        if ($age < 18) {
-            $rules['cpf_responsavel_paci'] = 'required|string|max:14';
-            $rules['responsavel_paci'] = 'required|string|max:54';
-        }
-    
-        // Aplica a validação
-        $request->validate($rules);
     
         // Cria um novo paciente
         $paciente = new Paciente();
     
-        if ($request->hasFile('img_paci')) {
-            $imagem = $request->file('img_paci');
-            $nomeImagem = time() . '.' . $imagem->getClientOriginalExtension();
-            $path = $imagem->storeAs('public/imagens_pacientes', $nomeImagem);
-    
-            $paciente->img_paci = 'imagens_pacientes/' . $nomeImagem;
-
-            // Salvar o ângulo de rotação da imagem
-            $paciente->angulo_rotacao = $request->input('angulo_rotacao', 0);
-        } else {
-            $paciente->img_paci = 'imagens_pacientes/default-profile-pic.png';  // Imagem padrão
-            $paciente->angulo_rotacao = 0;  // Sem rotação
-        }
+        $imageData = $this->uploadImage($request, 'img_paci', 'imagens_pacientes');
+        $paciente->img_paci = $imageData['path'];
+        $paciente->angulo_rotacao = $imageData['angulo_rotacao'];
     
         // Atribui os outros dados do request
         $paciente->nome_paci = $request->nome_paci;
@@ -150,35 +103,9 @@ class PersonController extends Controller
     }
     
 
-    public function update(Request $request)
+    public function update(\App\Http\Requests\UpdatePacienteRequest $request)
     {
-        $data = $request->all();
-    
-        // Validação
-        $request->validate([
-            'id' => 'required|exists:pacientes,pk_cod_paci',
-            'img_paci' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'angulo_rotacao' => 'nullable|integer',
-            'nome_paci' => 'required|string|max:54',
-            'email_paci' => 'required|email',
-            'data_nasci_paci' => 'required|date',
-            'telefone_paci' => 'required|string|max:15',
-            'genero' => 'required',
-            'cpf_paci' => 'required|string|max:14|cpf',
-            'responsavel_paci' => 'nullable|string|max:54',
-            'cpf_responsavel_paci' => 'nullable|string|max:14',
-            'fk_convenio_paci' => 'nullable|string',
-            'carteira_convenio_paci' => 'nullable|string',
-            'cep_paci' => 'nullable|string|max:9',
-            'rua_paci' => 'nullable|string|max:50',
-            'numero_paci' => 'nullable|string|max:5',
-            'bairro_paci' => 'nullable|string|max:50',
-            'cidade_paci' => 'nullable|string|max:30',
-            'complemento_paci' => 'nullable|string|max:100',
-            'uf_paci' => 'nullable|string|max:2',
-        ]);
-    
-        $paciente = Paciente::find($request->input('id')); // Busca o paciente pelo ID
+        $paciente = Paciente::findOrFail($request->input('id')); // Busca segura do paciente
     
         if ($paciente) {
             // Verifica se uma nova imagem foi enviada
@@ -189,17 +116,12 @@ class PersonController extends Controller
                     unlink(storage_path('app/public/' . $paciente->img_paci)); // Remove a imagem antiga
                 }
     
-                // Armazena a nova imagem
-                $imagem = $request->file('img_paci');
-                $nomeImagem = time() . '.' . $imagem->getClientOriginalExtension();
-                $path = $imagem->storeAs('public/imagens_pacientes', $nomeImagem);
-    
-                // Atualiza o caminho da imagem no banco de dados
-                $paciente->img_paci = 'imagens_pacientes/' . $nomeImagem;
+                $imageData = $this->uploadImage($request, 'img_paci', 'imagens_pacientes');
+                $paciente->img_paci = $imageData['path'];
+                $paciente->angulo_rotacao = $imageData['angulo_rotacao'];
+            } else {
+                $paciente->angulo_rotacao = $request->input('angulo_rotacao', $paciente->angulo_rotacao);
             }
-    
-            // Atualiza o ângulo de rotação da imagem
-            $paciente->angulo_rotacao = $request->input('angulo_rotacao', 0);
     
             // Atualiza os demais campos do paciente
             $paciente->nome_paci = $request->input('nome_paci');
@@ -228,7 +150,7 @@ class PersonController extends Controller
             }
         }
     
-        return redirect()->back()->withErrors('Paciente não encontrado.');
+        return redirect()->back()->withErrors('Falha na atualização.');
     }
     
 
@@ -273,10 +195,7 @@ class PersonController extends Controller
     // Método para obter um convênio específico pelo ID 
     public function convenios($id)
     {
-        $convenio = Convenio::find($id); // Busca o convênio pelo ID
-        if (!$convenio) {
-            return response()->json(['message' => 'Convenio não encontrado'], 404); // Retorna erro se não encontrado
-        }
+        $convenio = Convenio::findOrFail($id); // Busca o convênio de forma segura
         return response()->json($convenio); // Retorna o convênio em formato JSON
     }
 

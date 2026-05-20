@@ -48,44 +48,6 @@ $(document).ready(function () {
 });
 
 
-    // Mostrar botões ao clicar no input
-    $("#start").focus(function () {
-        $("#startButtons").show();
-    });
-
-    $("#end").focus(function () {
-        $("#endButtons").show();
-    });
-
-    // Manter os botões visíveis quando o mouse estiver sobre eles
-    $("#startButtons").mouseenter(function () {
-        $(this).show();
-    }).mouseleave(function () {
-        $(this).hide();
-    });
-
-    $("#endButtons").mouseenter(function () {
-        $(this).show();
-    }).mouseleave(function () {
-        $(this).hide();
-    });
-
-    // Aumentar e diminuir horários
-    $("#increaseStartTime").click(function () {
-        adjustTime("#start", 30);
-    });
-
-    $("#decreaseStartTime").click(function () {
-        adjustTime("#start", -30);
-    });
-
-    $("#increaseEndTime").click(function () {
-        adjustTime("#end", 30);
-    });
-
-    $("#decreaseEndTime").click(function () {
-        adjustTime("#end", -30);
-    });
 
     // Adiciona o evento de clique para os itens do dropdown
     $('.dropdown-item').click(function () {
@@ -112,8 +74,9 @@ $(document).ready(function () {
                 method: 'POST',
                 data: updatedColor,
                 success: function (response) {
-                    // Atualiza a página ou o calendário após a resposta
-                    location.reload(); // Atualiza a página
+                    $('#modalViewCalendar').modal('hide');
+                    showSuccessModal("Status Atualizado", "O status do agendamento foi modificado com sucesso.", "bi bi-check2-circle", color);
+                    calendar.refetchEvents();
                 },
                 error: function (xhr) {
                     console.error('Erro ao salvar a cor:', xhr.responseText);
@@ -135,11 +98,11 @@ $(document).ready(function () {
     });
 
     // Quando o botão de confirmação no modal de exclusão é clicado
-    $('#confirmDeleteButton').click(function () {
+    $('#confirmDeleteButton').off('click').on('click', function () {
         let id = $("#modalCalendar input[name='id']").val();
         let Event = { id: id, _method: 'DELETE' };
         let route = routeEvents('routeEventDelete');
-        sendEvent(route, Event);
+        sendEvent(route, Event, true); // Passa 'true' para indicar exclusão
         $('#confirmDeleteModal').modal('hide'); // Fecha o modal de confirmação após a exclusão
         $('#successMessage').hide(); // Esconde a mensagem de sucesso
     });
@@ -211,12 +174,7 @@ $(document).ready(function () {
         sendEvent(route, Event);
     });
 
-    // Adiciona evento para o botão de fechar do modal
-    document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(button => {
-        button.addEventListener('click', function () {
-            $('#successMessage').hide(); // Esconde a mensagem de sucesso
-        });
-    });
+
 });
 
 function sendEvent(route, data_, isDelete = false) {
@@ -227,18 +185,16 @@ function sendEvent(route, data_, isDelete = false) {
         dataType: "json",
         success: function (json) {
             if (json) {
-                if (!isDelete) { // Verifica se não é uma operação de exclusão
-                    let message;
-                    if (data_.id) { // Verifica se é uma atualização
-                        $('#successAlterationModal').modal('show'); // Mostra o modal de alteração realizada
-                    } else {
-                        $('#successModal').modal('show'); // Mostra o modal de cadastro realizado
-                    }
-                    $("#successMessageContent").text(message);
-                    $('#modalCalendar').modal('hide');
-                    
-                    calendar.refetchEvents();
+                if (isDelete) {
+                    showSuccessModal("Agendamento Excluído", "O horário foi liberado e removido da agenda.", "bi bi-trash-fill", "#dc3545");
+                } else if (data_.id) { 
+                    showSuccessModal("Agendamento Atualizado", "As informações da consulta foram alteradas com sucesso.", "bi bi-pencil-square", "#0d6efd");
+                } else {
+                    showSuccessModal("Agendamento Confirmado", "Nova consulta cadastrada com sucesso na agenda.", "bi bi-check-circle-fill", "#198754");
                 }
+                
+                $('#modalCalendar').modal('hide');
+                calendar.refetchEvents();
             }
         },
         error: function (json) {
@@ -248,15 +204,7 @@ function sendEvent(route, data_, isDelete = false) {
     });
 }
 
-// Quando o botão de confirmação no modal de exclusão é clicado
-$('#confirmDeleteButton').click(function () {
-    let id = $("#modalCalendar input[name='id']").val();
-    let Event = { id: id, _method: 'DELETE' };
-    let route = routeEvents('routeEventDelete');
-    sendEvent(route, Event, true); // Passa 'true' para indicar que é uma exclusão
-    $('#confirmDeleteModal').modal('hide'); // Fecha o modal de confirmação após a exclusão
-    $('#successMessage').hide(); // Esconde a mensagem de sucesso
-});
+
 
 
 function loadErrors(response) {

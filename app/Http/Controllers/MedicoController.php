@@ -70,17 +70,8 @@ class MedicoController extends Controller
     
     
     
-    public function update(Request $request)
+    public function update(\App\Http\Requests\UpdateMedicoRequest $request)
     {
-        $request->validate([
-            'id' => 'required|exists:medicos,pk_crm_med',
-            'nome' => 'required|string|max:255',
-            'especialidade' => 'required|string|max:255',
-            'especialidade2' => 'nullable|string|max:255',
-            'telefone' => 'required|string|max:15',
-            'email' => 'required|email|max:255',
-            'uf' => 'string|max:2',
-        ]);
     
         // Atualize o médico
         $medico = Medico::find($request->id);
@@ -101,24 +92,8 @@ class MedicoController extends Controller
         return view('medicos.index', compact('medicos'));
     }
 
-    public function store(Request $request)
+    public function store(\App\Http\Requests\StoreMedicoRequest $request)
     {
-        $request->validate([
-            'nome_med' => 'required|string|max:54',
-            'telefone_med' => 'required|string|max:15',
-            'uf_med' => 'required|string|max:2',
-            'email_med' => 'required|email',
-            'especialidade1_med' => 'required|string|max:40',
-            'especialidade2_med' => 'nullable|string|max:40',
-            'pk_crm_med' => 'required|integer'
-        ], [
-            'nome_med.required' => 'O campo nome é obrigatório',
-            'telefone_med.required' => 'O campo telefone é obrigatório',
-            'uf_med.required' => 'O campo UF é obrigatório',
-            'email_med.required' => 'O campo email é obrigatório',
-            'especialidade1_med.required' => 'O campo 1° especialidade é obrigatório',
-            'pk_crm_med.required' => 'O campo CRM é obrigatório'
-        ]);
 
         $medico = new Medico();
         $medico->nome_med = $request->nome_med;
